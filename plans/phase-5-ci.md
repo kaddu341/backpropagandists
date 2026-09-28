@@ -23,7 +23,7 @@
     and commenting if one does. The job still goes red. The issue step uses
     the `gh` CLI, with no third-party actions, and has `issues: write`.
 - Action versions are pinned to the current majors (checked 2026-09-28):
-  checkout v7, setup-uv v10, setup-node v7, upload-pages-artifact v5,
+  checkout v7, setup-uv v10.2.0 (exact: it has no major tags), setup-node v7, upload-pages-artifact v5,
   deploy-pages v5.
 
 ## Tasks
@@ -48,3 +48,7 @@
   correct.
 - The report body was checked with a fake `output.txt`. The real `gh` calls
   can only run in Actions.
+- **First real run (2026-09-28) failed at "Set up job":** `astral-sh/setup-uv@v10`
+  does not exist, because setup-uv publishes exact release tags only. It is
+  now pinned to `v10.2.0`. All other action tags were checked with
+  `gh api repos/<action>/git/ref/tags/<tag>`.

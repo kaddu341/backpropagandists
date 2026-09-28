@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v10 # Python version comes from .python-version
+      - uses: astral-sh/setup-uv@v10.2.0 # no moving major tag upstream: pin the exact release. Python comes from .python-version
       - uses: actions/setup-node@v7 # for the landing-page physics test
         with:
           node-version: 24
