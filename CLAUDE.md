@@ -10,7 +10,7 @@ curated links to external resources and 20% our own pages and notebooks. It
 covers diffusion and flow matching first and reinforcement learning next, and
 more topics get added over time. Deployed to GitHub Pages from a private repo.
 
-Status: Phases 1–4 (skeleton, resource system, notebooks, styling) done; Phase 5 (CI) is next. `plans/` holds the approved design
+Status: Phases 1–5 done (skeleton, resources, notebooks, styling, CI). `plans/` holds the approved design
 (`*-design.md`) and the per-phase task lists (`phase-*.md`, with checkboxes).
 Read them before starting work, and tick boxes as tasks finish. Plans live
 outside `docs/` on purpose: any file under `docs/` becomes a Sphinx page and
@@ -55,6 +55,11 @@ breaks the `-W` build.
   landscape per visit, and a ball that bounces down to the global minimum. Its
   pure `plan()` is tested by `tests/landscape.test.mjs` (Node), which pytest
   runs through `tests/test_landscape.py`.
+- CI: `.github/workflows/build.yml` runs `uv sync --locked`, pytest (with Node
+  24) and the `-W` build on PRs and pushes to `main`, and deploys to Pages from
+  `main` only. `linkcheck.yml` runs weekly and reports broken links to one open
+  issue labelled `linkcheck`. When you change dependencies, commit `uv.lock`
+  too, or `--locked` fails CI.
 - i18n hooks (`language`, `locale_dirs`, `gettext_compact`) are set in
   `conf.py` but unused. English/Chinese will come later.
 

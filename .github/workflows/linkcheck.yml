@@ -1,0 +1,44 @@
+# Weekly dead-link check. On failure, report to one open "linkcheck" issue
+# (created the first time, commented on after) and still go red.
+name: linkcheck
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write # open or comment on the report issue
+
+jobs:
+  linkcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+      - run: uv sync --locked
+      - id: check
+        run: uv run sphinx-build -b linkcheck docs _build/linkcheck
+        continue-on-error: true
+      - if: steps.check.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          # output.txt lists only broken, redirected and timed-out links: "file:line: [status] url"
+          {
+            echo "Linkcheck failed on $(date -u +%F). Run: $RUN_URL"
+            echo
+            echo '```'
+            cat _build/linkcheck/output.txt
+            echo '```'
+          } > report.md
+          gh label create linkcheck --color d93f0b --description "Broken external links" --force
+          issue=$(gh issue list --label linkcheck --state open --json number --jq '.[0].number')
+          if [ -n "$issue" ]; then
+            gh issue comment "$issue" --body-file report.md
+          else
+            gh issue create --title "Broken links found by linkcheck" --label linkcheck --body-file report.md
+          fi
+          exit 1

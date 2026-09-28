@@ -243,6 +243,9 @@ candidates are in `plans/phase-4-styling.md`.
   `gh` CLI, or updates it if one is already open. No third-party actions are
   used.
 
+- Node 24 is installed in the build job so pytest runs the landing-page
+  physics test instead of skipping it. See `plans/phase-5-ci.md`.
+
 ## Testing
 
 - `tests/test_resources.py` tests `load` and `group`: the valid path, every
