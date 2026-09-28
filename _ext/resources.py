@@ -90,7 +90,8 @@ def to_myst(groups):
                 link = f'{{doc}}`{target}` <span class="ours">ours</span>'
             else:
                 link = f"[{r['title']}](<{r['url']}>)"
-            meta = " · ".join(str(x) for x in (r["kind"], r.get("year"), r["level"]) if x)
+            kind = r["kind"] if "doc" in r else None  # otherwise the group heading already says it
+            meta = ", ".join(str(x) for x in (kind, r.get("year"), r["level"]) if x)
             out.append(f'- {link} <span class="meta">{meta}</span>')
             if "note" in r:
                 out += ["", textwrap.indent(r["note"].strip(), "  ")]

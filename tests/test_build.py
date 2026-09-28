@@ -81,7 +81,10 @@ def test_resource_list_renders_ours_first_with_both_link_kinds(tmp_path):
     assert html.index("<h2>Our material") < html.index("<h2>Papers")
     assert re.search(r'<a class="reference internal" href="../notebooks/nb.html">.*Our notebook', html)
     assert 'href="https://example.com/paper"' in html
-    assert 'class="ours"' in html and 'class="meta"' in html
+    assert 'class="ours"' in html
+    # Kind is dropped where the group heading already says it; kept under "Our material".
+    assert '<span class="meta">2020, foundational</span>' in html
+    assert '<span class="meta">notebook, intermediate</span>' in html
 
 
 def test_resource_list_unknown_topic_fails_build(tmp_path):
