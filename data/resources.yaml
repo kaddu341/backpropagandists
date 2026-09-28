@@ -1,0 +1,25 @@
+# Every learning resource on the site: one record per resource.
+# Topic pages render these with the `resource-list` directive (_ext/resources.py).
+# Bad data fails the build and names the offending record.
+#
+# Record template (copy, uncomment, fill in):
+#
+# - id: author-year-short-name    # unique
+#   url: https://...              # external resource, OR
+#   doc: notebooks/intro-pytorch  # our own page (no leading slash, no extension); marked "ours"
+#   title: "..."                  # required with url; with doc, defaults to the page's own title
+#   kind: paper                   # paper | lecture | video | course | book | blog | code | notebook
+#   topics: [diffusion]           # each needs a docs/topics/<topic>.md page
+#   level: foundational           # foundational | intermediate | advanced
+#   year: 2020                    # optional
+#   note: "Why it's worth the reader's time."   # optional
+#
+# Order matters: within each kind group, records appear in the order listed here.
+
+- id: ho-2020-ddpm
+  title: "Denoising Diffusion Probabilistic Models"
+  url: https://arxiv.org/abs/2006.11239
+  kind: paper
+  topics: [diffusion]
+  level: foundational
+  year: 2020
