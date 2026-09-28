@@ -55,8 +55,13 @@ html_title = project
 # the button fetches the page source from <baseurl>/_sources/, because the repo
 # itself is private. Update it if the site moves (org account or custom domain).
 html_baseurl = "https://kaddu341.github.io/backpropagandists/"
+templates_path = ["_templates"]  # partials/webfonts.html: stops Shibuya's Google Fonts request
+html_static_path = ["_static"]  # self-hosted fonts + custom.css
+html_css_files = ["custom.css"]  # all visual choices live there, commented
+html_js_files = [("landscape.js", {"type": "module"})]  # landing-page art; does nothing on other pages
 _toc = yaml.safe_load((ROOT / "_toc.yml").read_text())
 html_theme_options = {
+    "accent_color": "teal",  # Radix ramp nearest the pine-ink links: notes, tips, search highlights
     # Top bar: one link per _toc.yml section, pointing at its first page, so
     # _toc.yml stays the only place navigation is defined. The landing page
     # picks its layout itself (`layout: landing` front matter in index.md).

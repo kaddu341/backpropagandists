@@ -10,7 +10,7 @@ curated links to external resources and 20% our own pages and notebooks. It
 covers diffusion and flow matching first and reinforcement learning next, and
 more topics get added over time. Deployed to GitHub Pages from a private repo.
 
-Status: Phases 1–3 (skeleton, resource system, notebooks) done; Phase 4 (styling) is next. `plans/` holds the approved design
+Status: Phases 1–4 (skeleton, resource system, notebooks, styling) done; Phase 5 (CI) is next. `plans/` holds the approved design
 (`*-design.md`) and the per-phase task lists (`phase-*.md`, with checkboxes).
 Read them before starting work, and tick boxes as tasks finish. Plans live
 outside `docs/` on purpose: any file under `docs/` becomes a Sphinx page and
@@ -44,8 +44,17 @@ breaks the `-W` build.
   raises `ExtensionError`, which aborts the build.
 - Adding a topic takes one `_toc.yml` entry, one thin `docs/topics/<topic>.md`
   containing a `resource-list` directive, and new YAML records. Nothing else.
-- Theme: Shibuya, customized only via CSS variable overrides (`--sy-f-*`,
-  `--sy-c-*`) in `docs/_static/custom.css`.
+- Theme: Shibuya, restyled as "Shanshui" in `docs/_static/custom.css` (every
+  choice commented). Function first: body and code use the OS fonts (Shibuya's
+  default stack, like the PyTorch tutorials), and math uses MathJax's default
+  font. Calligraphy (LXGW WenKai, self-hosted Latin chunk) is only for H1, the
+  brand and the landing wordmark. Never add third-party font requests:
+  `docs/_templates/partials/webfonts.html` exists to block Shibuya's Google
+  Fonts.
+- `docs/_static/landscape.js` draws the landing art: a new random loss
+  landscape per visit, and a ball that bounces down to the global minimum. Its
+  pure `plan()` is tested by `tests/landscape.test.mjs` (Node), which pytest
+  runs through `tests/test_landscape.py`.
 - i18n hooks (`language`, `locale_dirs`, `gettext_compact`) are set in
   `conf.py` but unused. English/Chinese will come later.
 
@@ -56,6 +65,6 @@ uv sync                                                     # install env
 uv run sphinx-autobuild docs _build/html --watch data --watch _ext --watch _toc.yml  # live dev server
 uv run sphinx-build -W -b html docs _build/html              # strict build (CI gate)
 uv run sphinx-build -b linkcheck docs _build/linkcheck       # dead-link check
-uv run pytest                                               # all tests
+uv run pytest                                               # all tests (incl. the Node physics test; skipped without node)
 uv run pytest tests/test_resources.py -k duplicate          # a single test
 ```

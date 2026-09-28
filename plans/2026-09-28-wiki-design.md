@@ -32,12 +32,16 @@ _ext/resources.py         # `resource-list` directive
 _ext/nb_reader.py         # .ipynb reader: renders pasted (attachment:) images
 tests/test_resources.py   # load/group unit tests
 tests/test_build.py       # throwaway builds with the real conf.py (math, directive)
+tests/landscape.test.mjs  # landing physics under node --test (run by tests/test_landscape.py)
 plans/                    # this spec + phase plans (outside docs/ so Sphinx ignores it)
 docs/conf.py
 docs/index.md             # Shibuya landing layout
 docs/topics/*.md          # one per topic: title + resource-list
 docs/notebooks/*.ipynb    # our own teaching notebooks
-docs/_static/custom.css
+docs/_static/custom.css   # every visual choice, commented
+docs/_static/landscape.js # landing art: random loss landscape + ball
+docs/_static/fonts/       # LXGW WenKai (Latin chunk) + OFL licence
+docs/_templates/partials/webfonts.html  # removes Shibuya's Google Fonts request
 .github/workflows/{build,linkcheck}.yml
 ```
 
@@ -206,15 +210,25 @@ and a `--sy-f-cjk` font token.
 
 ## Styling (Phase 4)
 
-- The direction comes from the user's brief (Svelte, Astro, Arch, Framework):
-  confident typography, generous whitespace, restrained colour and a real
-  monospace face.
-- Two candidate directions are built as real `docs/_static/custom.css` on the
-  live site, and the user picks one.
-- Styling changes only Shibuya's `--sy-f-*` and `--sy-c-*` variables, plus
-  minimal additional CSS, with each choice commented. No CSS framework is used.
-- Where the fonts come from (Google Fonts or self-hosted) is decided in
-  Phase 4.
+The chosen direction is "Shanshui". The full reasoning and the rejected
+candidates are in `plans/phase-4-styling.md`.
+
+- **Function first.** Reading text and code use the OS fonts (Shibuya's
+  default stack), as the PyTorch tutorials do. Math uses MathJax's default
+  font, New Computer Modern.
+- **Calligraphy only on short text.** LXGW WenKai (Latin chunk self-hosted)
+  is used for H1, the brand and the landing wordmark. Chinese titles fall back
+  to the system Kaiti.
+- **No third-party font requests.** `docs/_templates/partials/webfonts.html`
+  removes Shibuya's Google Fonts Inter.
+- **The landing art is `docs/_static/landscape.js`.** It generates random loss
+  landscapes on every visit, and a soccer ball (C₆₀) bounces down and settles
+  at the global minimum. Its physics is tested by `tests/landscape.test.mjs`,
+  which pytest runs through `tests/test_landscape.py` and skips when Node is
+  absent.
+- All visual choices are in `docs/_static/custom.css`, commented. It
+  overrides Shibuya's `--sy-*` tokens plus a few targeted rules. No CSS
+  framework is used.
 
 ## CI (Phase 5)
 

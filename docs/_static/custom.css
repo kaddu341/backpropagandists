@@ -1,0 +1,173 @@
+/* backpropagandists: "Shanshui" (山水, mountain-and-water ink painting).
+ *
+ * Function first: the site is for reading long notebooks full of math and
+ * code, so reading text uses the OS's own UI and monospace fonts at 16 px, as
+ * the PyTorch tutorials do. That is Shibuya's default stack, so body and code
+ * fonts are not overridden at all. Math is MathJax's default, New Computer
+ * Modern: the LaTeX look.
+ *
+ * The character lives where it cannot slow reading down:
+ *   - calligraphy (LXGW WenKai) only for short text: page titles, the brand
+ *     and the landing wordmark;
+ *   - a quiet palette of mist paper and pine-soot ink;
+ *   - the landing art: random ink ridges that are loss curves, with a ball
+ *     that finds the minimum (drawn by _static/landscape.js).
+ * Only Shibuya's --sy-* tokens are overridden, plus the targeted rules below.
+ */
+
+/* -- Fonts ------------------------------------------------------------------ */
+/* Latin chunk only (36 KB, self-hosted). Chinese titles fall back to the
+ * system Kaiti (楷体), which is also a brush face, so nothing more is loaded. */
+@font-face {
+  font-family: "LXGW WenKai Screen";
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/lxgw-wenkai-screen-latin.woff2) format("woff2");
+}
+:root {
+  --bp-f-brush: "LXGW WenKai Screen", "Kaiti SC", "STKaiti", "KaiTi", serif;
+  /* Chinese reading text: each OS's own UI face (Latin stays the OS default). */
+  --sy-f-cjk: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC";
+}
+
+/* -- Colour ----------------------------------------------------------------- */
+html.light {
+  --bp-paper: #f2f4f3;  /* morning mist: cool grey-green, easy on the eyes, never cream */
+  --bp-ink: #1e2a2b;    /* pine-soot ink: 13:1 on the paper */
+  --bp-muted: #5b6968;  /* meta lines, captions: 5.4:1 */
+  --bp-rule: #d3dbd9;
+  --bp-link: #2f5d62;   /* diluted ink, a green-blue wash */
+  --bp-mark: #b8322a;   /* cinnabar: only the "ours" badge */
+  --code-block-background: #e8eceb;
+  --bp-ridge-0: 0.16;   /* ink density at each ridge's crest, far to near */
+  --bp-ridge-1: 0.28;
+  --bp-ridge-2: 0.5;
+}
+html.dark {
+  --bp-paper: #111718;  /* night mist */
+  --bp-ink: #dce3e0;
+  --bp-muted: #8d9b98;
+  --bp-rule: #243130;
+  --bp-link: #8fc2be;
+  --bp-mark: #e0564a;
+  --code-block-background: #172122;
+  --bp-ridge-0: 0.1;
+  --bp-ridge-1: 0.17;
+  --bp-ridge-2: 0.3;
+}
+html.light, html.dark {
+  --sy-c-background: var(--bp-paper);
+  --sy-c-background-dropback: color-mix(in srgb, var(--bp-paper) 82%, transparent); /* sticky header glass */
+  --sy-c-text: var(--bp-ink);
+  --sy-c-heading: var(--bp-ink);
+  --sy-c-bold: var(--bp-ink);
+  --sy-c-light: var(--bp-muted);
+  --sy-c-border: var(--bp-rule);
+  --sy-c-divider: var(--bp-rule);
+  --sy-c-link: var(--bp-link);
+  --sy-c-link-hover: var(--bp-link);
+  --sy-c-foot-background: var(--bp-paper);
+  --sy-c-foot-divider: var(--bp-rule);
+  --sy-c-foot-text: var(--bp-muted);
+}
+
+/* -- Type --------------------------------------------------------------------- */
+.yue h1, .sy-head-brand {
+  font-family: var(--bp-f-brush);
+  font-weight: 400;       /* WenKai has one weight: never let the browser fake bold */
+  font-synthesis: none;
+}
+.yue h1 { letter-spacing: 0; }
+
+/* Readers copy code: `!=` must look like `!=`, not a ligature. */
+.yue code, .yue pre { font-variant-ligatures: none; }
+
+/* Sentence case instead of Shibuya's tracked ALL-CAPS sidebar captions. */
+.globaltoc .caption, .sy-rside-inner > div > h3 {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--sy-c-heading);
+}
+
+/* Current page in the sidebar: a bar, not just a colour change. */
+.globaltoc li.current > a.current { box-shadow: inset 2px 0 0 var(--bp-link); padding-left: 0.6rem; }
+
+/* Notebook code cells: theme colours instead of myst-nb's green margin. */
+.yue {
+  --mystnb-source-margin-color: var(--bp-link);
+  --mystnb-source-border-color: var(--bp-rule);
+  --mystnb-source-bg-color: var(--code-block-background);
+}
+
+/* Keyboard focus is always visible. */
+:focus-visible { outline: 2px solid var(--bp-link); outline-offset: 2px; }
+
+/* -- Resource lists (from the resource-list directive) ------------------------ */
+.yue ul:has(> li .meta) { list-style: none; padding-left: 0; }
+.yue ul:has(> li .meta) > li { margin: 0 0 1.15rem; padding: 0; }
+.yue ul:has(> li .meta) > li > p { margin: 0; }
+.yue ul:has(> li .meta) > li > p + p { margin-top: 0.3rem; } /* the curator's note */
+.yue ul:has(> li .meta) a.external::after { content: "\2009↗"; color: var(--bp-muted); } /* leaves the site */
+.yue .meta { display: block; font-size: 0.85rem; color: var(--bp-muted); }
+.yue .ours { /* our own material: a small cinnabar badge with a word on it */
+  margin-left: 0.4em;
+  padding: 0.05em 0.4em 0.1em;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--bp-paper);
+  background: var(--bp-mark);
+}
+
+/* -- Landing ------------------------------------------------------------------ */
+/* Specificity beats Shibuya's inline landing <style> (section:first-of-type h1). */
+main.sy-content .yue section h1 {
+  font-size: clamp(2.4rem, 7vw, 5.6rem);
+  line-height: 1;
+  margin: 16vh 0 0;
+}
+main.sy-content .yue section h1 + p {
+  margin-top: 1.25rem;
+  font-size: 1.3rem;
+  color: var(--bp-muted);
+}
+
+/* The landing fills the viewport; landscape.js draws its art in a full-bleed
+ * band on the bottom edge, just above the footer. */
+body:has(main.sy-content) { overflow-x: clip; } /* the 100vw band must not add a scrollbar */
+main.sy-content { position: relative; min-height: calc(100vh - var(--sy-s-navbar-height) - 4.5rem); }
+.bp-landscape {
+  position: absolute;
+  left: calc(50% - 50vw);
+  width: 100vw;
+  bottom: 0;
+  height: 50vh;
+  z-index: -1;
+  pointer-events: none;
+}
+/* Ridges rise out of the mist far-to-near; then the ball drops (landscape.js). */
+.bp-ridge { animation: bp-rise 1.6s cubic-bezier(0.2, 0.7, 0.1, 1) both; }
+.bp-ridge-1 { animation-delay: 0.2s; }
+.bp-ridge-2 { animation-delay: 0.4s; }
+@keyframes bp-rise { from { opacity: 0; transform: translateY(24px); } }
+/* A classic white ball with black patches, in both light and dark mode. */
+.bp-ball-skin { fill: #fbfbf9; }
+.bp-ball-patch { fill: #1e2a2b; }
+.bp-ball-seam { stroke: #1e2a2b; stroke-width: 1; }
+.bp-ball-rim { fill: none; stroke: var(--bp-ink); stroke-width: 1.4; } /* light in dark mode: keeps the silhouette */
+/* Once the ball is at rest: gradient zero, the thing training looks for. */
+.bp-label {
+  font: 1rem var(--sy-f-text);
+  fill: var(--bp-ink);
+  text-anchor: middle;
+  opacity: 0;
+  transition: opacity 0.8s;
+}
+.bp-done .bp-label { opacity: 1; }
+
+/* Motion is decoration here: honour the reader's OS setting. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
