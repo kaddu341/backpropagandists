@@ -52,8 +52,10 @@ relative to `docs/`.
 ## Navigation and pages
 
 - `_toc.yml` has three captioned sections:
-  - **Foundations**: `notebooks/intro-pytorch`, `notebooks/intro-transformers`.
-  - **Generative models**: `topics/diffusion`, `topics/flow-matching`.
+  - **Foundations**: `topics/basics`, `notebooks/intro-pytorch`,
+    `notebooks/intro-transformers`.
+  - **Generative models**: `topics/diffusion-flow-matching` (diffusion and
+    flow matching were merged into one page on 2026-09-28, at the user's request).
   - **Reinforcement learning**: `topics/reinforcement-learning`.
 - Shibuya `nav_links` mirrors the sections. `conf.py` derives them from
   `_toc.yml`, with one link per caption pointing at the section's first page,
@@ -103,12 +105,10 @@ A record with `doc:` is **our own material**. It renders as a Sphinx `{doc}`
 cross-reference, so a renamed or deleted page fails the `-W` build instead of
 rotting silently.
 
-The seed data is a single record: DDPM (Ho et al. 2020,
-https://arxiv.org/abs/2006.11239), with kind `paper`, topics `[diffusion]`,
-level `foundational` and year 2020. It has no `note`, which is left for the
-user to write. The two notebooks get no `doc:` records yet. They are reached
-through the Foundations section in the navigation, and no topic page exists
-for them to be tagged with.
+The seed record (DDPM) was replaced on 2026-09-28 by the user's first curated
+list. Every title, year and link was checked against its source, and the notes
+are the user's own, lightly edited. The two notebooks are `doc:` records on
+the Basics page.
 
 ### Directive
 

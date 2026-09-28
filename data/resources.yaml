@@ -9,17 +9,104 @@
 #   doc: notebooks/intro-pytorch  # our own page (no leading slash, no extension); marked "ours"
 #   title: "..."                  # required with url; with doc, defaults to the page's own title
 #   kind: paper                   # paper | lecture | video | course | book | blog | code | notebook
-#   topics: [diffusion]           # each needs a docs/topics/<topic>.md page
+#   topics: [basics]              # each needs a docs/topics/<topic>.md page
 #   level: foundational           # foundational | intermediate | advanced
 #   year: 2020                    # optional
 #   note: "Why it's worth the reader's time."   # optional
 #
 # Order matters: within each kind group, records appear in the order listed here.
 
-- id: ho-2020-ddpm
-  title: "Denoising Diffusion Probabilistic Models"
-  url: https://arxiv.org/abs/2006.11239
-  kind: paper
-  topics: [diffusion]
+# --- Basics -----------------------------------------------------------------
+
+- id: intro-pytorch
+  doc: notebooks/intro-pytorch
+  kind: notebook
+  topics: [basics]
   level: foundational
-  year: 2020
+
+- id: intro-transformers
+  doc: notebooks/intro-transformers
+  kind: notebook
+  topics: [basics]
+  level: foundational
+
+- id: 3b1b-neural-networks
+  title: "Neural networks (3Blue1Brown)"
+  url: https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi
+  kind: video
+  topics: [basics]
+  level: foundational
+  note: "Good for building intuition, and easy to binge-watch."
+
+- id: mit-6s191-intro-deep-learning
+  title: "MIT 6.S191: Introduction to Deep Learning"
+  url: https://www.youtube.com/playlist?list=PLtBw6njQRU-rwp5__7C0oIVt26ZgjG9NI
+  kind: video
+  topics: [basics]
+  level: foundational
+  note: "An alternative to the 3Blue1Brown videos."
+
+- id: pytorch-learn-the-basics
+  title: "Learn the Basics (PyTorch tutorials)"
+  url: https://docs.pytorch.org/tutorials/beginner/basics/intro.html
+  kind: course
+  topics: [basics]
+  level: foundational
+  note: "The next step after the 3Blue1Brown videos, for the coding basics. You should be able to work through it in a few days."
+
+# --- Diffusion and flow matching ---------------------------------------------
+
+- id: nakkiran-2024-step-by-step-diffusion
+  title: "Step-by-Step Diffusion: An Elementary Tutorial"
+  url: https://arxiv.org/abs/2406.08929
+  kind: paper
+  topics: [diffusion-flow-matching]
+  level: foundational
+  year: 2024
+  note: "A quick way to get up to speed. You can read it in a day."
+
+- id: mit-6s184-2026
+  title: "MIT 6.S184: Flow Matching and Diffusion Models"
+  url: https://diffusion.csail.mit.edu/2026/index.html
+  kind: course
+  topics: [diffusion-flow-matching]
+  level: foundational
+  year: 2026
+  note: "We highly recommend the [lectures](https://www.youtube.com/playlist?list=PL57nT7tSGAAXwjhDYcxEycx5W7YoSrZyt) and the accompanying [course notes](https://diffusion.csail.mit.edu/2026/docs/lecture_notes.pdf) for building intuition."
+
+- id: lipman-2024-flow-matching-guide
+  title: "Flow Matching Guide and Code"
+  url: https://arxiv.org/abs/2412.06264
+  kind: paper
+  topics: [diffusion-flow-matching]
+  level: intermediate
+  year: 2024
+  note: "Its [accompanying code](https://github.com/facebookresearch/flow_matching) is much simpler and cleaner than typical research code, which makes it good for learning."
+
+- id: rectified-flow-colab
+  title: "Rectified Flow"
+  url: https://colab.research.google.com/drive/1LouqFBIC7pnubCOl5fhnFd33-oVJao2J
+  kind: notebook
+  topics: [diffusion-flow-matching]
+  level: foundational
+  note: "A minimal flow-matching Colab. It implements rectified flow, from [Flow Straight and Fast](https://arxiv.org/abs/2209.03003) (Liu et al., 2022), on toy Gaussian-mixture data."
+
+# --- Reinforcement learning --------------------------------------------------
+
+- id: murphy-2024-rl-overview
+  title: "Reinforcement Learning: An Overview"
+  url: https://arxiv.org/abs/2412.05265
+  kind: paper
+  topics: [reinforcement-learning]
+  level: intermediate
+  year: 2024
+  note: "Comprehensive, and covers far more than you need. Focus on the parts relevant to your work."
+
+- id: shao-2024-deepseekmath
+  title: "DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models"
+  url: https://arxiv.org/abs/2402.03300
+  kind: paper
+  topics: [reinforcement-learning]
+  level: intermediate
+  year: 2024
+  note: "Reportedly very well written."

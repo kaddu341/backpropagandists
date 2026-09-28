@@ -2,8 +2,8 @@
 hide_ai_links: "true"  # must be a quoted string: Shibuya compares against "true"
 ---
 
-# Diffusion models
+# Diffusion and flow matching
 
 ```{resource-list}
-:topics: diffusion
+:topics: diffusion-flow-matching
 ```

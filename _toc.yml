@@ -5,12 +5,12 @@ root: index
 subtrees:
   - caption: Foundations
     entries:
+      - file: topics/basics
       - file: notebooks/intro-pytorch
       - file: notebooks/intro-transformers
   - caption: Generative models
     entries:
-      - file: topics/diffusion
-      - file: topics/flow-matching
+      - file: topics/diffusion-flow-matching
   - caption: Reinforcement learning
     entries:
       - file: topics/reinforcement-learning
