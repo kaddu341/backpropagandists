@@ -29,6 +29,7 @@ published to GitHub Pages as a **public** site, built from a private repo.
 _toc.yml                  # sole navigation source
 data/resources.yaml       # external resources, one record each
 _ext/resources.py         # `resource-list` directive
+_ext/nb_reader.py         # .ipynb reader: renders pasted (attachment:) images
 tests/test_resources.py   # load/group unit tests
 tests/test_build.py       # throwaway builds with the real conf.py (math, directive)
 plans/                    # this spec + phase plans (outside docs/ so Sphinx ignores it)
@@ -183,7 +184,12 @@ value.
   `intro-transformers.ipynb`.
   - If they trip `-W`, the specific warning type is added to
     `suppress_warnings`. The content is not edited, and each suppression is
-    reported to the user.
+    reported to the user. So far the only suppression is `myst.header`,
+    because both notebooks jump from H1 to H3.
+  - `.ipynb` files are read through `_ext/nb_reader.py`, which inlines
+    markdown-cell attachments (images pasted in Jupyter) as `data:` URIs,
+    because myst-nb cannot resolve `attachment:` links. This was added in
+    Phase 3 for the FFT formula image in intro-pytorch.
   - Their Colab badges still point at SPS_Curriculum. The user will update
     them during the planned typo pass.
 - `myst_enable_extensions = ["amsmath", "dollarmath", "colon_fence", "deflist",

@@ -10,7 +10,7 @@ curated links to external resources and 20% our own pages and notebooks. It
 covers diffusion and flow matching first and reinforcement learning next, and
 more topics get added over time. Deployed to GitHub Pages from a private repo.
 
-Status: Phases 1 (skeleton) and 2 (resource system) done; Phase 3 (notebooks) is next. `plans/` holds the approved design
+Status: Phases 1–3 (skeleton, resource system, notebooks) done; Phase 4 (styling) is next. `plans/` holds the approved design
 (`*-design.md`) and the per-phase task lists (`phase-*.md`, with checkboxes).
 Read them before starting work, and tick boxes as tasks finish. Plans live
 outside `docs/` on purpose: any file under `docs/` becomes a Sphinx page and

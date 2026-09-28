@@ -3,6 +3,10 @@
 # becomes a top-bar link to the section's first page (see docs/conf.py).
 root: index
 subtrees:
+  - caption: Foundations
+    entries:
+      - file: notebooks/intro-pytorch
+      - file: notebooks/intro-transformers
   - caption: Generative models
     entries:
       - file: topics/diffusion

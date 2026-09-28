@@ -31,6 +31,9 @@ myst_enable_extensions = [
     "deflist",  # definition lists
     "fieldlist",  # :field: value lists
 ]
+# The SPS_Curriculum notebooks jump from H1 to H3 ("### Setup"). Remove this
+# once their headings are fixed; it is the only warning type suppressed.
+suppress_warnings = ["myst.header"]
 
 # -- Notebooks -----------------------------------------------------------------
 # Never execute notebooks during the build: their outputs are committed. A
