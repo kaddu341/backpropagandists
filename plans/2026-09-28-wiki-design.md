@@ -29,7 +29,8 @@ published to GitHub Pages as a **public** site, built from a private repo.
 _toc.yml                  # sole navigation source
 data/resources.yaml       # external resources, one record each
 _ext/resources.py         # `resource-list` directive
-tests/test_resources.py
+tests/test_resources.py   # load/group unit tests
+tests/test_build.py       # throwaway builds with the real conf.py (math, directive)
 plans/                    # this spec + phase plans (outside docs/ so Sphinx ignores it)
 docs/conf.py
 docs/index.md             # Shibuya landing layout
@@ -48,7 +49,9 @@ relative to `docs/`.
   - **Foundations**: `notebooks/intro-pytorch`, `notebooks/intro-transformers`.
   - **Generative models**: `topics/diffusion`, `topics/flow-matching`.
   - **Reinforcement learning**: `topics/reinforcement-learning`.
-- Shibuya `nav_links` mirrors the three sections.
+- Shibuya `nav_links` mirrors the sections. `conf.py` derives them from
+  `_toc.yml`, with one link per caption pointing at the section's first page,
+  so navigation is defined only once.
 - `index.md` uses `layout: landing`, and every other page uses Shibuya's
   default layout. The landing page contains the site name
   "backpropagandists", the README tagline "Machine learning learning", and one
@@ -56,9 +59,11 @@ relative to `docs/`.
 - Footer copyright is left unset until the user specifies it.
 - Shibuya's "Copy page ▾" button (copy/view Markdown source, open in ChatGPT
   or Claude) stays on globally. Topic pages hide it with `hide_ai_links` front
-  matter, because their source is just the directive. Shibuya compares the
-  value to the string `"true"`; check how MyST passes a YAML bool before
-  settling on the exact spelling.
+  matter, because their source is just the directive. The front matter must
+  be the quoted string `hide_ai_links: "true"`: MyST turns a YAML `true`
+  into `"True"`, and Shibuya compares against `"true"`. The button only
+  renders when `html_baseurl` is set, because the repo is private. It then
+  fetches the source from `<baseurl>/_sources/`.
 
 ## Resource system
 

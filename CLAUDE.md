@@ -10,7 +10,7 @@ curated links to external resources and 20% our own pages and notebooks. It
 covers diffusion and flow matching first and reinforcement learning next, and
 more topics get added over time. Deployed to GitHub Pages from a private repo.
 
-Status: scaffolding in progress. `plans/` holds the approved design
+Status: Phase 1 (skeleton) done; Phase 2 (resource system) is next. `plans/` holds the approved design
 (`*-design.md`) and the per-phase task lists (`phase-*.md`, with checkboxes).
 Read them before starting work, and tick boxes as tasks finish. Plans live
 outside `docs/` on purpose: any file under `docs/` becomes a Sphinx page and
@@ -53,7 +53,7 @@ breaks the `-W` build.
 
 ```sh
 uv sync                                                     # install env
-uv run sphinx-autobuild docs _build/html --watch data --watch _ext --watch _toc.yml  # live dev server
+uv run sphinx-autobuild docs _build/html --watch _toc.yml    # live dev server (add --watch data --watch _ext once they exist)
 uv run sphinx-build -W -b html docs _build/html              # strict build (CI gate)
 uv run sphinx-build -b linkcheck docs _build/linkcheck       # dead-link check
 uv run pytest                                               # all tests

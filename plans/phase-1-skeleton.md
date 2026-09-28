@@ -53,20 +53,20 @@ Spec: `plans/2026-09-28-wiki-design.md`.
 **Files:**
 - Modify: `pyproject.toml`, `uv.lock` (via uv)
 
-- [ ] **Step 1: Add pinned deps**
+- [x] **Step 1: Add pinned deps**
 
 ```bash
 uv add --bounds exact pyyaml
 uv add --dev --bounds exact pytest
 ```
 
-- [ ] **Step 2: Verify pins**
+- [x] **Step 2: Verify pins**
 
 Run: `grep -E 'pyyaml|pytest' pyproject.toml`
 Expected: both lines use `==` pins. `pytest` must sit under
 `[dependency-groups] dev`.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add pyproject.toml uv.lock
@@ -80,7 +80,7 @@ git commit -m "Add pyyaml and pytest (pinned)"
 **Files:**
 - Create: `tests/test_build.py`
 
-- [ ] **Step 1: Write the test**
+- [x] **Step 1: Write the test**
 
 ```python
 """Throwaway Sphinx builds that run the real docs/conf.py on fixture pages."""
@@ -125,7 +125,7 @@ def test_inline_and_bare_align_math_render(tmp_path):
     assert re.search(r'<div class="math[^"]*"[^>]*>\s*\\begin\{align\}', html)
 ```
 
-- [ ] **Step 2: Run it and confirm it fails**
+- [x] **Step 2: Run it and confirm it fails**
 
 Run: `uv run pytest tests/test_build.py -v`
 Expected: FAIL with `CalledProcessError`. Sphinx reports that the config
@@ -139,7 +139,7 @@ directory doesn't contain a `conf.py`.
 - Create: `docs/conf.py`
 - Create: `_toc.yml`
 
-- [ ] **Step 1: Write `_toc.yml`**
+- [x] **Step 1: Write `_toc.yml`**
 
 ```yaml
 # Site navigation. This is the ONLY place it is defined: no toctree
@@ -156,7 +156,7 @@ subtrees:
       - file: topics/reinforcement-learning
 ```
 
-- [ ] **Step 2: Write `docs/conf.py`**
+- [x] **Step 2: Write `docs/conf.py`**
 
 ```python
 """Sphinx configuration. Every setting is commented. Read top to bottom."""
@@ -216,7 +216,7 @@ html_theme_options = {
 }
 ```
 
-- [ ] **Step 3: Run the math test and confirm it passes**
+- [x] **Step 3: Run the math test and confirm it passes**
 
 Run: `uv run pytest tests/test_build.py -v`
 Expected: PASS. If a regex fails, look at the actual markup with
@@ -224,7 +224,7 @@ Expected: PASS. If a regex fails, look at the actual markup with
 **regex** so it matches the actual MathJax markup. Do not change the page
 content.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add tests/test_build.py docs/conf.py _toc.yml
@@ -239,12 +239,12 @@ git commit -m "Add conf.py, _toc.yml, and math acceptance test"
 - Create: `docs/index.md`
 - Create: `docs/topics/diffusion.md`, `docs/topics/flow-matching.md`, `docs/topics/reinforcement-learning.md`
 
-- [ ] **Step 1: Confirm the real site currently fails**
+- [x] **Step 1: Confirm the real site currently fails**
 
 Run: `uv run sphinx-build -W -b html docs _build/html`
 Expected: FAIL. The pages that `_toc.yml` references don't exist yet.
 
-- [ ] **Step 2: Write `docs/index.md`**
+- [x] **Step 2: Write `docs/index.md`**
 
 The tagline is the README's. There is no other prose, because the user writes
 the content.
@@ -273,7 +273,7 @@ Machine learning learning
 ::::
 ```
 
-- [ ] **Step 3: Write the three stub topic pages**
+- [x] **Step 3: Write the three stub topic pages**
 
 The only thing that differs between them is the H1. The `resource-list`
 directive is added to these pages in Phase 2.
@@ -305,12 +305,12 @@ hide_ai_links: "true"  # must be a quoted string: Shibuya compares against "true
 # Reinforcement learning
 ```
 
-- [ ] **Step 4: Strict build passes**
+- [x] **Step 4: Strict build passes**
 
 Run: `uv run sphinx-build -W -b html docs _build/html`
 Expected: `build succeeded.` with no warnings.
 
-- [ ] **Step 5: Verify the rendered output**
+- [x] **Step 5: Verify the rendered output**
 
 ```bash
 grep -c 'copy-page-wrapper' _build/html/topics/diffusion.html   # expect 0 (hidden on topic pages)
@@ -318,7 +318,7 @@ grep -c 'copy-page-wrapper' _build/html/index.html              # expect 1 (kept
 grep -o 'href="topics/diffusion.html"' _build/html/index.html | head -1   # top-bar and card links resolve
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add docs/index.md docs/topics/
@@ -333,7 +333,7 @@ git commit -m "Add landing page and stub topic pages"
 - Modify: `CLAUDE.md` (status line)
 - Modify: `plans/2026-09-28-wiki-design.md` (record the facts learned in this phase)
 
-- [ ] **Step 1: Confirm `sphinx-autobuild` serves**
+- [x] **Step 1: Confirm `sphinx-autobuild` serves**
 
 Run the CLAUDE.md command in the background on port 8000. If it errors
 because `data/` or `_ext/` don't exist yet, drop those two `--watch` flags for
@@ -343,7 +343,7 @@ Phase 1, since they arrive in Phase 2. Then check the server and stop it:
 curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8000/   # expect 200
 ```
 
-- [ ] **Step 2: Update the spec with what this phase settled**
+- [x] **Step 2: Update the spec with what this phase settled**
 
 In `plans/2026-09-28-wiki-design.md`:
 - Add `tests/test_build.py` to the Layout block.
@@ -351,12 +351,12 @@ In `plans/2026-09-28-wiki-design.md`:
 - Replace the "check how MyST passes a YAML bool" sentence with: must be
   `hide_ai_links: "true"`, quoted.
 
-- [ ] **Step 3: Update the CLAUDE.md status line**
+- [x] **Step 3: Update the CLAUDE.md status line**
 
 Change it to: "Status: Phase 1 (skeleton) done; see `plans/` for the next
 phase."
 
-- [ ] **Step 4: Full verification**
+- [x] **Step 4: Full verification**
 
 ```bash
 uv run pytest -v
@@ -364,9 +364,27 @@ uv run sphinx-build -W -b html docs _build/html
 ```
 Expected: both pass.
 
-- [ ] **Step 5: Commit and stop for user review**
+- [x] **Step 5: Commit and stop for user review**
 
 ```bash
 git add CLAUDE.md plans/
 git commit -m "Phase 1 done: record settled details in spec and CLAUDE.md"
 ```
+
+---
+
+## Execution log (2026-09-28)
+
+All tasks are done. There were three deviations from the plan above:
+- **Task 3:** the align regex was too narrow. MyST emits
+  `<div class="amsmath math …">` with an equation-number `<span>` before
+  `\[\begin{align}`, so the regex was widened (`re.S`). A mutation check
+  (amsmath disabled → plain `<p>`) confirmed the test still catches the
+  regression.
+- **Task 4:** the "Copy page" button did not render anywhere. Shibuya needs a
+  public source URL, and the repo is private, so `html_baseurl` was set to the
+  Pages URL. The landing layout never shows the button, so the positive check
+  was done on a topic page with the flag temporarily removed.
+- **Task 5:** `sphinx-autobuild` crashes on `--watch` paths that don't exist,
+  so Phase 1 watches only `_toc.yml`. Add `--watch data --watch _ext` in
+  Phase 2.
