@@ -1,0 +1,12 @@
+# Site navigation. This is the ONLY place it is defined: no toctree
+# directives in pages. Each subtree is a sidebar section, and its caption also
+# becomes a top-bar link to the section's first page (see docs/conf.py).
+root: index
+subtrees:
+  - caption: Generative models
+    entries:
+      - file: topics/diffusion
+      - file: topics/flow-matching
+  - caption: Reinforcement learning
+    entries:
+      - file: topics/reinforcement-learning
