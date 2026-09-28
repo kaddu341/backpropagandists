@@ -54,8 +54,10 @@ relative to `docs/`.
   so navigation is defined only once.
 - `index.md` uses `layout: landing`, and every other page uses Shibuya's
   default layout. The landing page contains the site name
-  "backpropagandists", the README tagline "Machine learning learning", and one
-  sphinx-design card per section linking to it. There is no other prose.
+  "backpropagandists" and the README tagline "Machine learning learning".
+  There is no other prose. It had no section cards (cut after Phase 1): they
+  would have been a hand-kept copy of `_toc.yml`, and the top bar, which is
+  derived from `_toc.yml`, already links every section.
 - Footer copyright is left unset until the user specifies it.
 - Shibuya's "Copy page ▾" button (copy/view Markdown source, open in ChatGPT
   or Claude) stays on globally. Topic pages hide it with `hide_ai_links` front
