@@ -1,10 +1,12 @@
 """Sphinx configuration. Every setting is commented. Read top to bottom."""
 
+import sys
 from pathlib import Path
 
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent  # repo root; this file lives in docs/
+sys.path.insert(0, str(ROOT / "_ext"))  # our local extension(s)
 
 # -- Project -------------------------------------------------------------------
 project = "backpropagandists"
@@ -15,6 +17,7 @@ extensions = [
     "myst_nb",  # Markdown (MyST) and Jupyter notebooks; loads myst_parser itself
     "sphinx_design",  # cards, grids, tabs, dropdowns
     "sphinx_external_toc",  # navigation from _toc.yml instead of toctree directives
+    "resources",  # _ext/resources.py: the `resource-list` directive over data/resources.yaml
 ]
 
 # -- Navigation ----------------------------------------------------------------

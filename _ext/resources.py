@@ -5,10 +5,13 @@ that file). A topic is valid iff docs/topics/<topic>.md exists. Any bad data
 raises ExtensionError, which aborts the build instead of rendering nothing.
 """
 
+import textwrap
 from pathlib import Path
 
 import yaml
+from docutils.parsers.rst import directives
 from sphinx.errors import ExtensionError
+from sphinx.util.docutils import SphinxDirective
 
 # kind -> group heading, in display order. This is also the list of allowed kinds.
 KINDS = {
@@ -74,3 +77,47 @@ def group(records, topics=None):
     groups = [(OURS, [r for r in picked if "doc" in r])]
     groups += [(h, [r for r in picked if "url" in r and r["kind"] == k]) for k, h in KINDS.items()]
     return [(heading, rs) for heading, rs in groups if rs]
+
+
+def to_myst(groups):
+    """Render [(heading, records)] as MyST: a `##` section with a list per group."""
+    out = []
+    for heading, records in groups:
+        out += [f"## {heading}", ""]
+        for r in records:
+            if "doc" in r:  # leading / = relative to the source dir, not this page
+                target = f"{r['title']} </{r['doc']}>" if "title" in r else f"/{r['doc']}"
+                link = f'{{doc}}`{target}` <span class="ours">ours</span>'
+            else:
+                link = f"[{r['title']}](<{r['url']}>)"
+            meta = " · ".join(str(x) for x in (r["kind"], r.get("year"), r["level"]) if x)
+            out.append(f'- {link} <span class="meta">{meta}</span>')
+            if "note" in r:
+                out += ["", textwrap.indent(r["note"].strip(), "  ")]
+            out.append("")
+    return "\n".join(out)
+
+
+class ResourceList(SphinxDirective):
+    """```{resource-list}``` with an optional `:topics: a, b` filter."""
+
+    option_spec = {"topics": directives.unchanged}
+
+    def run(self):
+        srcdir = Path(self.env.srcdir)
+        path = srcdir.parent / "data" / "resources.yaml"
+        self.env.note_dependency(path)  # data edits rebuild the pages that use it
+        valid = {p.stem for p in (srcdir / "topics").glob("*.md")}
+        topics = None
+        if "topics" in self.options:
+            topics = [t.strip() for t in self.options["topics"].split(",") if t.strip()]
+            if bad := set(topics) - valid:
+                raise ExtensionError(f"{self.get_location()}: unknown topic(s) {sorted(bad)} in :topics:")
+        # MyST attaches the generated sections to the page itself. custom.css
+        # finds these lists by their spans: ul:has(.meta), .meta, .ours.
+        return self.parse_text_to_nodes(to_myst(group(load(path, valid), topics)), allow_section_headings=True)
+
+
+def setup(app):
+    app.add_directive("resource-list", ResourceList)
+    return {"parallel_read_safe": True, "parallel_write_safe": True}
