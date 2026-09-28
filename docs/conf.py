@@ -18,6 +18,7 @@ extensions = [
     "sphinx_design",  # cards, grids, tabs, dropdowns
     "sphinx_external_toc",  # navigation from _toc.yml instead of toctree directives
     "resources",  # _ext/resources.py: the `resource-list` directive over data/resources.yaml
+    "nb_reader",  # _ext/nb_reader.py: Colab/GitHub badges on notebook pages (also the reader below)
 ]
 
 # -- Navigation ----------------------------------------------------------------
@@ -52,8 +53,8 @@ gettext_compact = False
 html_theme = "shibuya"
 html_title = project
 # The published site's URL. Shibuya needs it to render the "Copy page" button:
-# the button fetches the page source from <baseurl>/_sources/, because the repo
-# itself is private. Update it if the site moves (org account or custom domain).
+# the button fetches the page source from <baseurl>/_sources/. Update it if the
+# site moves (org account or custom domain), together with REPO in _ext/nb_reader.py.
 html_baseurl = "https://kaddu341.github.io/backpropagandists/"
 templates_path = ["_templates"]  # partials/webfonts.html: stops Shibuya's Google Fonts request
 html_static_path = ["_static"]  # self-hosted fonts + custom.css

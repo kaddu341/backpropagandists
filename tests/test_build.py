@@ -108,3 +108,29 @@ def test_notebook_markdown_attachment_renders(tmp_path):
     assert proc.returncode == 0, proc.stderr
     html = (tmp_path / "out" / "nb.html").read_text()
     assert re.search(r'<img alt="pic" src="(?!attachment:)[^"]+"', html)
+
+
+BLOB = "kaddu341/backpropagandists/blob/main/docs/notebooks/nb.ipynb"
+
+
+def test_notebook_gets_colab_and_github_badges_under_its_title(tmp_path):
+    import nbformat
+
+    nb = nbformat.v4.new_notebook(cells=[nbformat.v4.new_markdown_cell("# NB\n\nFirst paragraph.")])
+    pages = {"index": "# Home\n", "notebooks/nb.ipynb": nbformat.writes(nb), "page": "# Plain page\n"}
+    proc = build(tmp_path, pages)
+    assert proc.returncode == 0, proc.stderr
+    html = (tmp_path / "out" / "notebooks" / "nb.html").read_text()
+    colab = html.index(f'href="https://colab.research.google.com/github/{BLOB}"')
+    github = html.index(f'href="https://github.com/{BLOB}"')
+    assert html.index("<h1") < colab < github < html.index("First paragraph")
+    # Embedded, so a page view makes no request to Google or shields.io.
+    assert html.count('src="data:image/svg+xml;base64,') == 2
+    assert "colab.research.google.com" not in (tmp_path / "out" / "page.html").read_text()
+
+
+def test_no_hand_written_colab_badges():
+    # The build adds the badges. Hand-written ones go stale: the SPS_Curriculum
+    # ones opened a different repo's copy of the notebook.
+    stale = [p.name for p in DOCS.rglob("*.ipynb") if "colab.research.google.com/github" in p.read_text()]
+    assert not stale

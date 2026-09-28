@@ -8,9 +8,11 @@ A Sphinx-built learning-resources wiki for incoming postdocs/grad students in a
 condensed-matter theory group: physicists who are new to ML. It is roughly 80%
 curated links to external resources and 20% our own pages and notebooks. It
 covers diffusion and flow matching first and reinforcement learning next, and
-more topics get added over time. Deployed to GitHub Pages from a private repo.
+more topics get added over time. Deployed to GitHub Pages from a public repo
+(public so that Colab can open the notebooks).
 
-Status: Phases 1–5 done (skeleton, resources, notebooks, styling, CI). `plans/` holds the approved design
+Status: Phases 1–6 done (skeleton, resources, notebooks, styling, CI, Colab
+badges). `plans/` holds the approved design
 (`*-design.md`) and the per-phase task lists (`phase-*.md`, with checkboxes).
 Read them before starting work, and tick boxes as tasks finish. Plans live
 outside `docs/` on purpose: any file under `docs/` becomes a Sphinx page and
@@ -42,6 +44,10 @@ breaks the `-W` build.
   emits a compact list grouped by kind ("Our material" first). Items within a
   group keep their YAML order, so the curator controls reading order. Bad data
   raises `ExtensionError`, which aborts the build.
+- `_ext/nb_reader.py` reads notebooks (pasted images become `data:` URIs) and
+  adds "Open in Colab" / "View on GitHub" badges under each notebook's title,
+  built from its path. Never hand-write a badge:
+  `test_no_hand_written_colab_badges` rejects them.
 - Adding a topic takes one `_toc.yml` entry, one thin `docs/topics/<topic>.md`
   containing a `resource-list` directive, and new YAML records. Nothing else.
 - Theme: Shibuya, restyled as "Shanshui" in `docs/_static/custom.css` (every

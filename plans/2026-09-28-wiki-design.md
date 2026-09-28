@@ -9,7 +9,8 @@ This is a Sphinx site that works as a curated learning-resources wiki for
 incoming postdocs and grad students in a condensed-matter theory group. The
 readers are strong physicists who are new to ML. About 80% of the content is
 curated external links and about 20% is our own pages and notebooks. It is
-published to GitHub Pages as a **public** site, built from a private repo.
+published to GitHub Pages as a **public** site, built from a public repo
+(private until Phase 6).
 
 ## Non-negotiables
 
@@ -29,7 +30,7 @@ published to GitHub Pages as a **public** site, built from a private repo.
 _toc.yml                  # sole navigation source
 data/resources.yaml       # external resources, one record each
 _ext/resources.py         # `resource-list` directive
-_ext/nb_reader.py         # .ipynb reader: renders pasted (attachment:) images
+_ext/nb_reader.py         # .ipynb reader (pasted images) + Colab/GitHub badges
 tests/test_resources.py   # load/group unit tests
 tests/test_build.py       # throwaway builds with the real conf.py (math, directive)
 tests/landscape.test.mjs  # landing physics under node --test (run by tests/test_landscape.py)
@@ -69,7 +70,7 @@ relative to `docs/`.
   matter, because their source is just the directive. The front matter must
   be the quoted string `hide_ai_links: "true"`: MyST turns a YAML `true`
   into `"True"`, and Shibuya compares against `"true"`. The button only
-  renders when `html_baseurl` is set, because the repo is private. It then
+  renders when `html_baseurl` is set. It then
   fetches the source from `<baseurl>/_sources/`.
 
 ## Resource system
@@ -194,8 +195,8 @@ value.
     markdown-cell attachments (images pasted in Jupyter) as `data:` URIs,
     because myst-nb cannot resolve `attachment:` links. This was added in
     Phase 3 for the FFT formula image in intro-pytorch.
-  - Their Colab badges still point at SPS_Curriculum. The user will update
-    them during the planned typo pass.
+  - Their hand-written Colab badges were removed in Phase 6; the build adds
+    badges (see `phase-6-colab.md`).
 - `myst_enable_extensions = ["amsmath", "dollarmath", "colon_fence", "deflist",
   "fieldlist"]`. Math is rendered by MathJax (Sphinx's default). Shared macros
   are added when first needed.

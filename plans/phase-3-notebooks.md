@@ -49,5 +49,7 @@ Items for the user's typo pass (content, left unedited):
   `suppress_warnings`.
 - The PyTorch-tutorial credit is a bare URL in parentheses. MyST renders it as
   plain text, so it needs `<https://...>` or `[text](url)` to be clickable.
-- The Colab badges and links point at SPS_Curriculum `main`.
+- (Done in Phase 6: the badge cells were removed, and the build adds badges.)
+- The authors and credit cells come before the H1, so they render above the
+  page title and the badges.
 - The FFT formula is an image; `$$...$$` would render natively.
