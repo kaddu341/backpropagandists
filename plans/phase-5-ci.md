@@ -32,7 +32,7 @@
 - [x] Dry-run the steps locally: `uv sync --locked`, pytest, the strict build
   and `.nojekyll`.
 - [x] Update CLAUDE.md and commit.
-- [ ] Hand-off, which needs the user: pushing, enabling Pages
+- [x] Hand-off, which needs the user: pushing, enabling Pages
   (Settings → Pages → Source: GitHub Actions), and merging `scaffold` → `main`.
 
 ## Execution log

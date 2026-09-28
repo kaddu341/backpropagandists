@@ -28,12 +28,13 @@ jobs:
       - run: uv sync --locked
       - run: uv run pytest
       - run: uv run sphinx-build -W -b html -d _build/doctrees docs _build/html # doctrees kept out of the published site
-      - uses: actions/upload-pages-artifact@v5
+      - if: github.ref == 'refs/heads/main' # only deploys consume it
+        uses: actions/upload-pages-artifact@v5
         with:
           path: _build/html
 
   deploy:
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    if: github.ref == 'refs/heads/main' # a PR's ref is refs/pull/N/merge, never main
     needs: build
     runs-on: ubuntu-latest
     permissions:

@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.2.0
-      - run: uv sync --locked
+      - run: uv sync --locked --no-dev
       - id: check
         run: uv run sphinx-build -b linkcheck docs _build/linkcheck
         continue-on-error: true
@@ -31,7 +31,8 @@ jobs:
             echo "Linkcheck failed on $(date -u +%F). Run: $RUN_URL"
             echo
             echo '```'
-            cat _build/linkcheck/output.txt
+            # GitHub caps an issue body at 65536 chars; no output.txt means the build aborted first
+            head -c 60000 _build/linkcheck/output.txt || echo "(no output.txt: the build failed before checking links; see the run)"
             echo '```'
           } > report.md
           gh label create linkcheck --color d93f0b --description "Broken external links" --force
