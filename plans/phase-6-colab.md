@@ -288,9 +288,9 @@ the end, when they say so.
 
 ### Task 8: After the user pushes
 
-- [ ] The live page `notebooks/intro-pytorch.html` has both badges, and their
+- [x] The live page `notebooks/intro-pytorch.html` has both badges, and their
   `href`s are the URLs from Task 3.
-- [ ] Open the Colab URL with Playwright (installed Chrome) and take a
+- [x] Open the Colab URL with Playwright (installed Chrome) and take a
   screenshot. Expected: the notebook's title is visible, not a "not found" or
   sign-in wall.
 
@@ -317,3 +317,8 @@ the end, when they say so.
   blob URL returns 200 anonymously. Linkcheck is now fully green (exit 0).
 - The user approved committing, merging `colab` into `main` locally and
   pushing.
+- Merged into `main` (fast-forward) and pushed. CI run 36438439210: build and
+  deploy succeeded. The live `notebooks/intro-pytorch.html` links to the
+  planned Colab and GitHub URLs. Opened anonymously, Colab shows our copy of
+  the notebook (it starts at "Content Produced by…", with no stale badge
+  cell).
