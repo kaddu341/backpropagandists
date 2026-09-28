@@ -37,6 +37,8 @@ myst_enable_extensions = [
 # light notebook can opt in through its own metadata, e.g.
 # {"mystnb": {"execution_mode": "force"}}.
 nb_execution_mode = "off"
+# Read .ipynb through _ext/nb_reader.py so that images pasted into markdown cells render.
+nb_custom_formats = {".ipynb": ["nb_reader.read_ipynb", {}, False]}
 
 # -- i18n (configured, not used yet) -------------------------------------------
 language = "en"

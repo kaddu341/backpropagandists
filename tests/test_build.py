@@ -9,7 +9,7 @@ DOCS = Path(__file__).resolve().parent.parent / "docs"
 
 
 def build(tmp_path: Path, pages: dict[str, str], resources: str | None = None):
-    """Build `pages` ({docname: markdown}) with the real conf.py into <tmp>/out.
+    """Build `pages` ({docname: markdown, or "name.ipynb": json}) with the real conf.py into <tmp>/out.
 
     Every page except index is listed in the toc. `resources` (YAML text) goes
     to <tmp>/data/resources.yaml, which is where the extension looks relative to
@@ -17,7 +17,7 @@ def build(tmp_path: Path, pages: dict[str, str], resources: str | None = None):
     """
     src = tmp_path / "src"
     for name, text in pages.items():
-        path = src / f"{name}.md"
+        path = src / (name if name.endswith(".ipynb") else f"{name}.md")
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text)
     # conf.py sets external_toc_path = "../_toc.yml", relative to the source dir.
@@ -89,3 +89,19 @@ def test_resource_list_unknown_topic_fails_build(tmp_path):
     proc = build(tmp_path, pages, RESOURCES)
     assert proc.returncode != 0
     assert "nope" in proc.stderr
+
+
+PNG_1PX = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+
+
+def test_notebook_markdown_attachment_renders(tmp_path):
+    import nbformat
+
+    pasted = nbformat.v4.new_markdown_cell(
+        "![pic](attachment:pic.png)", attachments={"pic.png": {"image/png": PNG_1PX}}
+    )
+    nb = nbformat.v4.new_notebook(cells=[nbformat.v4.new_markdown_cell("# NB"), pasted])
+    proc = build(tmp_path, {"index": "# Home\n", "nb.ipynb": nbformat.writes(nb)})
+    assert proc.returncode == 0, proc.stderr
+    html = (tmp_path / "out" / "nb.html").read_text()
+    assert re.search(r'<img alt="pic" src="(?!attachment:)[^"]+"', html)
