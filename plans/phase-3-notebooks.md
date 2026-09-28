@@ -42,14 +42,27 @@ All tasks are done (2026-09-28).
 - The only suppression is `myst.header` (H1 → H3 in both notebooks).
 - Linkcheck passes. Colab badge, both Colab links and arXiv all work.
 
-Items for the user's typo pass (content, left unedited):
-- Both notebooks have the H1 "Intro to Deep Learning using PyTorch", so the
-  sidebar shows two identical entries.
-- "### Setup" directly under the H1. Fixing it lets `myst.header` come out of
-  `suppress_warnings`.
-- The PyTorch-tutorial credit is a bare URL in parentheses. MyST renders it as
-  plain text, so it needs `<https://...>` or `[text](url)` to be clickable.
+Items for the user's typo pass. Items marked done were fixed at the user's
+request (2026-09-28); the rest are still open.
+- (Done by the user: "Intro to PyTorch", "Intro to Transformers".) Both
+  notebooks had the H1 "Intro to Deep Learning using PyTorch".
+- (Done: `## Setup`, and the `myst.header` suppression is gone.) "### Setup"
+  sat directly under the H1.
+- (Done: `<https://...>`.) The PyTorch-tutorial credit was a bare URL, which
+  MyST renders as plain text.
 - (Done in Phase 6: the badge cells were removed, and the build adds badges.)
-- The authors and credit cells come before the H1, so they render above the
-  page title and the badges.
-- The FFT formula is an image; `$$...$$` would render natively.
+- (Kept as is, the user's call.) The credit cell comes before the H1, so it renders above the page title
+  (the user deleted the authors cell).
+- (Done.) intro-transformers typos: "orignal", "concatenatenated". It also calls
+  transformers "position-equivariant"; the usual term is
+  permutation-equivariant.
+- (Done: LaTeX, now the **2-D** DFT that `torch.fft.fft2` computes; the image
+  showed the 1-D formula. Both checked numerically against torch.) The FFT
+  formula was an image.
+- (Done: 10000.) intro-transformers said the positional-encoding factor $n$
+  was 1000 in the original paper; the paper and the code use 10000.
+- (Left as is for now, the user's call.) intro-transformers hedges the $\sqrt{k}$ in attention ("for numerical
+  stability I think?").
+- (Done: $\{0, 1, ... \frac{d}{2} - 1\}$.) intro-transformers gave $i \in \{1, 2, ... \frac{d}{2}\}$ for the
+  positional-encoding index; the code (`range(embed_dim / 2)`) and the paper
+  use $i = 0, \dots, d/2 - 1$.

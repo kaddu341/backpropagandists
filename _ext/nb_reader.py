@@ -4,8 +4,8 @@
   Jupyter stores a pasted image as a cell attachment (`![x](attachment:x.png)`),
   which myst-nb cannot resolve, so each one becomes a data: URI.
 - setup: an extension that puts "Open in Colab" and "View on GitHub" badges
-  under every notebook's title. The links come from the notebook's own path, so
-  they cannot go stale the way hand-written badges do.
+  at the top of every notebook page. The links come from the notebook's own
+  path, so they cannot go stale the way hand-written badges do.
 """
 
 import base64
@@ -47,11 +47,7 @@ def add_badges(app, doctree):
     row += badge("colab.svg", "Open in Colab", f"https://colab.research.google.com/github/{blob}")
     row += nodes.Text(" ")
     row += badge("github.svg", "View on GitHub", f"https://github.com/{blob}")
-    section = next(doctree.findall(nodes.section), None)  # the H1's section
-    if section is None:
-        doctree.insert(0, row)
-    else:
-        section.insert(1, row)  # section[0] is the title
+    doctree.insert(0, row)  # top of the page, above the title, like the PyTorch tutorials
 
 
 def setup(app):

@@ -32,8 +32,9 @@ Each badge opens the exact notebook that the page was built from.
   `_ext/nb_reader.py` gains a `setup()` (and joins `extensions`) with a
   `doctree-read` handler.
   - For every doc whose source is `.ipynb`, it inserts one paragraph of two
-    image links right after the first section title, or at the top if the
-    notebook has no heading. Markdown pages get nothing.
+    image links at the very top of the page, above the title (moved there at
+    the user's request, 2026-09-28, matching the PyTorch tutorials; first
+    built under the title). Markdown pages get nothing.
   - Colab: `https://colab.research.google.com/github/kaddu341/backpropagandists/blob/main/docs/<path>`.
   - GitHub: `https://github.com/kaddu341/backpropagandists/blob/main/docs/<path>`.
   - `<path>` is the source path relative to `docs/`, e.g.

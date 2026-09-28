@@ -184,17 +184,19 @@ value.
 - `nb_execution_mode = "off"`. The build never executes notebooks, and outputs
   are committed. The user re-runs notebooks locally. A future lightweight
   notebook may opt in to execution through its own `mystnb` metadata.
-- `intro_pytorch.ipynb` and `intro_transformers.ipynb` are copied unmodified
+- `intro_pytorch.ipynb` and `intro_transformers.ipynb` were copied unmodified
   from SPS_Curriculum@8c291ad and renamed to `intro-pytorch.ipynb` and
-  `intro-transformers.ipynb`.
+  `intro-transformers.ipynb`. Since then they are edited only at the user's
+  request (see the typo list in `phase-3-notebooks.md`).
   - If they trip `-W`, the specific warning type is added to
     `suppress_warnings`. The content is not edited, and each suppression is
-    reported to the user. So far the only suppression is `myst.header`,
-    because both notebooks jump from H1 to H3.
+    reported to the user. The only one, `myst.header` (H1 → H3), was
+    removed once the user had the headings fixed; none remain.
   - `.ipynb` files are read through `_ext/nb_reader.py`, which inlines
     markdown-cell attachments (images pasted in Jupyter) as `data:` URIs,
     because myst-nb cannot resolve `attachment:` links. This was added in
-    Phase 3 for the FFT formula image in intro-pytorch.
+    Phase 3 for the FFT formula image in intro-pytorch (now LaTeX; the
+    reader stays for future pasted images).
   - Their hand-written Colab badges were removed in Phase 6; the build adds
     badges (see `phase-6-colab.md`).
 - `myst_enable_extensions = ["amsmath", "dollarmath", "colon_fence", "deflist",
