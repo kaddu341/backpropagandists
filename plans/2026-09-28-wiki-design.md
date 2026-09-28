@@ -135,8 +135,11 @@ for them to be tagged with.
   - a muted meta line: `kind · year · level`
   - the note, if there is one
 
-  The list is wrapped in a container with class `resource-list`, so that
-  Phase 4 CSS can style it. That CSS gives external links a ↗ glyph and
+  The CSS hooks are `span.meta`, `span.ours`, and `ul:has(.meta)` for the
+  lists themselves. There is no wrapper class, because MyST attaches the
+  generated sections directly to the page (found in Phase 2). A note renders
+  as a second `<p>` in its `<li>`. Phase 4 CSS gives external links a ↗ glyph
+  and
   internal ones a distinct glyph, using Sphinx's existing `reference external`
   and `reference internal` classes. The "ours" text label means the
   distinction does not rely on colour or glyphs alone.

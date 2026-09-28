@@ -33,7 +33,7 @@ are `<span>`s that Phase 4 CSS styles. No fallback is needed.
 
 ### 1. `load` and `group` (unit, TDD)
 
-- [ ] RED: `tests/test_resources.py`
+- [x] RED: `tests/test_resources.py`
   - `load` returns the records for a valid file.
   - `load` raises `ExtensionError`, with the record id in the message, for
     each of:
@@ -55,41 +55,56 @@ are `<span>`s that Phase 4 CSS styles. No fallback is needed.
     - empty groups are omitted
     - the topic filter works
     - no filter means every record
-- [ ] Watch them fail (`ModuleNotFoundError: resources`).
-- [ ] GREEN: write `load` and `group` in `_ext/resources.py`, and add the
+- [x] Watch them fail (`ModuleNotFoundError: resources`).
+- [x] GREEN: write `load` and `group` in `_ext/resources.py`, and add the
   pytest `pythonpath`.
-- [ ] Commit.
+- [x] Commit.
 
 ### 2. Directive (integration, TDD)
 
-- [ ] RED: `tests/test_build.py`
+- [x] RED: `tests/test_build.py`
   - A topic page with a fixture YAML (one paper `url` record and one `doc`
     record pointing at a fixture page) renders the "Our material" `<h2>`
     before "Papers". The internal link resolves, the external link is present,
     and the `ours` and `meta` spans are present.
   - `:topics: nope` fails the build and names `nope`.
-- [ ] Watch them fail (unknown directive).
-- [ ] GREEN: write the directive and wire it into `conf.py`. The directive
+- [x] Watch them fail (unknown directive).
+- [x] GREEN: write the directive and wire it into `conf.py`. The directive
   calls `note_dependency` on the YAML.
-- [ ] Commit.
+- [x] Commit.
 
 ### 3. Real data and pages
 
-- [ ] Add `data/resources.yaml` with a commented template and the DDPM record.
+- [x] Add `data/resources.yaml` with a commented template and the DDPM record.
   DDPM has no `note`; the user writes it.
-- [ ] Add a `resource-list` directive to all three topic pages.
-- [ ] Run `uv run sphinx-build -W -b html docs _build/html` and check that
+- [x] Add a `resource-list` directive to all three topic pages.
+- [x] Run `uv run sphinx-build -W -b html docs _build/html` and check that
   DDPM appears under "Papers" on the Diffusion page and nowhere else.
-- [ ] Run `uv run sphinx-build -b linkcheck docs _build/linkcheck` and check
+- [x] Run `uv run sphinx-build -b linkcheck docs _build/linkcheck` and check
   that it passes.
-- [ ] Commit.
+- [x] Commit.
 
 ### 4. Wrap-up
 
-- [ ] Add `--watch data --watch _ext` to the CLAUDE.md autobuild command and
+- [x] Add `--watch data --watch _ext` to the CLAUDE.md autobuild command and
   confirm that it serves.
-- [ ] Update the CLAUDE.md status, tick this plan, and record any deviations
+- [x] Update the CLAUDE.md status, tick this plan, and record any deviations
   below.
-- [ ] Commit, then stop for user review.
+- [x] Commit, then stop for user review.
 
 ## Execution log
+
+All tasks are done (2026-09-28). There were three deviations:
+- **The `resource-list` class on the `<ul>` was dropped.** MyST attaches
+  directive-generated sections straight to the page, so the returned nodes
+  never contained the lists, and the class-adding loop was dead code. CSS
+  targets the lists with `ul:has(.meta)` instead. An eyeball check caught
+  this, not a test.
+- **Notes render as a second `<p>` inside the `<li>`,** so a list containing
+  a noted item is "loose" rather than `ul.simple`. Phase 4 CSS evens out the
+  spacing.
+- **`{doc}` targets get a leading `/`.** A `{doc}` target is otherwise
+  resolved relative to the topic page's own directory.
+
+Checks run: 17 tests pass; the strict build is clean; linkcheck passes
+(arXiv returns 200); autobuild picks up a YAML edit.
