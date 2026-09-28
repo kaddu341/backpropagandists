@@ -233,8 +233,9 @@ candidates are in `plans/phase-4-styling.md`.
 ## CI (Phase 5)
 
 - `build.yml` runs on every push and PR. The steps are `uv sync`,
-  `uv run pytest`, then `sphinx-build -W -b html`, then adding `.nojekyll` to
-  the output. The site is deployed from `main` only, using
+  `uv run pytest`, then `sphinx-build -W -b html`. No `.nojekyll` is needed:
+  an Actions deploy never runs Jekyll, and `upload-pages-artifact` drops
+  dotfiles anyway. The site is deployed from `main` only, using
   `actions/upload-pages-artifact` + `actions/deploy-pages`. Permissions are
   `pages: write`, `id-token: write` and `contents: read`, and a `concurrency`
   group prevents overlapping deploys.

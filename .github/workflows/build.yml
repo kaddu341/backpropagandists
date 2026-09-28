@@ -28,7 +28,6 @@ jobs:
       - run: uv sync --locked
       - run: uv run pytest
       - run: uv run sphinx-build -W -b html -d _build/doctrees docs _build/html # doctrees kept out of the published site
-      - run: touch _build/html/.nojekyll # belt and braces: _static/ and _sources/ must never meet Jekyll
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _build/html

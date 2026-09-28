@@ -8,8 +8,7 @@
   - **Triggers:** push to `main`, pull requests, and manual dispatch.
   - **Steps:** `uv sync --locked`, then `uv run pytest` (Node 24 is set up so
     the ball-physics test runs rather than skips), then
-    `sphinx-build -W -b html`, then `.nojekyll`, then
-    `upload-pages-artifact`.
+    `sphinx-build -W -b html`, then `upload-pages-artifact`.
   - **Deploy:** a separate job that runs only on `main` and never for PRs.
     Only that job gets `pages: write` + `id-token: write`; everything else is
     `contents: read`.
@@ -52,3 +51,12 @@
   does not exist, because setup-uv publishes exact release tags only. It is
   now pinned to `v10.2.0`. All other action tags were checked with
   `gh api repos/<action>/git/ref/tags/<tag>`.
+- **Removed the `.nojekyll` step (user decision, 2026-09-28).**
+  `upload-pages-artifact` excludes dotfiles unless `include-hidden-files: true`,
+  so the file never reached the site: the live `/.nojekyll` returned 404. It
+  is also unnecessary, because an Actions deploy never runs Jekyll; the live
+  `_static/` and `_sources/` were already served.
+- The live site was checked after the first green run: the pages,
+  `landscape.js` (`application/javascript`), the CSS, the woff2 font and
+  `_sources/*.txt` all return 200. The CI log shows `test_landscape.py`
+  passed, not skipped.
