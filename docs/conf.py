@@ -43,6 +43,10 @@ gettext_compact = False
 # -- HTML / theme --------------------------------------------------------------
 html_theme = "shibuya"
 html_title = project
+# The published site's URL. Shibuya needs it to render the "Copy page" button:
+# the button fetches the page source from <baseurl>/_sources/, because the repo
+# itself is private. Update it if the site moves (org account or custom domain).
+html_baseurl = "https://kaddu341.github.io/backpropagandists/"
 _toc = yaml.safe_load((ROOT / "_toc.yml").read_text())
 html_theme_options = {
     # Top bar: one link per _toc.yml section, pointing at its first page, so
